@@ -273,12 +273,7 @@ class MessagesFlowNode(
                     }
 
                     override fun navigateToRoomCall(roomId: RoomId) {
-                        val callType = CallType.RoomCall(
-                            sessionId = sessionId,
-                            roomId = roomId,
-                        )
-                        analyticsService.captureInteraction(Interaction.Name.MobileRoomCallButton)
-                        elementCallEntryPoint.startCall(callType)
+                        startElementRoomCall(roomId)
                     }
 
                     override fun navigateToPinnedMessagesList() {
@@ -489,12 +484,7 @@ class MessagesFlowNode(
                     }
 
                     override fun navigateToRoomCall(roomId: RoomId) {
-                        val callType = CallType.RoomCall(
-                            sessionId = sessionId,
-                            roomId = roomId,
-                        )
-                        analyticsService.captureInteraction(Interaction.Name.MobileRoomCallButton)
-                        elementCallEntryPoint.startCall(callType)
+                        startElementRoomCall(roomId)
                     }
 
                     override fun navigateToThread(threadRootId: ThreadId, focusedEventId: EventId?) {
@@ -512,6 +502,15 @@ class MessagesFlowNode(
             eventId = eventId,
         )
         callback.handlePermalinkClick(permalinkData, pushToBackstack = false)
+    }
+
+    private fun startElementRoomCall(roomId: RoomId) {
+        val callType = CallType.RoomCall(
+            sessionId = sessionId,
+            roomId = roomId,
+        )
+        analyticsService.captureInteraction(Interaction.Name.MobileRoomCallButton)
+        elementCallEntryPoint.startCall(callType)
     }
 
     private fun processEventClick(

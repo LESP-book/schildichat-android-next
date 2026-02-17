@@ -69,6 +69,7 @@ internal fun MessagesViewTopBar(
     roomCallState: RoomCallState,
     dmUserIdentityState: IdentityState?,
     onRoomDetailsClick: () -> Unit,
+    onSearchClick: () -> Unit,
     onJoinCallClick: () -> Unit,
     onBackClick: () -> Unit,
     state: MessagesState, // SC
@@ -124,7 +125,7 @@ internal fun MessagesViewTopBar(
                 onJoinCallClick = onJoinCallClick,
             )
             //Spacer(Modifier.width(8.dp)) // SC: moved to scMessagesViewTopBarActions()
-            scMessagesViewTopBarActions(state, roomCallState, onJoinCallClick, onViewAllPinnedMessagesClick)
+            scMessagesViewTopBarActions(state, roomCallState, onSearchClick, onJoinCallClick, onViewAllPinnedMessagesClick)
         },
         windowInsets = WindowInsets(0.dp)
     )
@@ -186,6 +187,7 @@ internal fun MessagesViewTopBarPreview() = ElementPreview {
         roomCallState = roomCallState,
         dmUserIdentityState = dmUserIdentityState,
         onRoomDetailsClick = {},
+        onSearchClick = {},
         onJoinCallClick = {},
         onBackClick = {},
         state = aMessagesState(), // SC

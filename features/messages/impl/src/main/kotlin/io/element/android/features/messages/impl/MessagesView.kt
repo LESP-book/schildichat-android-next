@@ -29,6 +29,11 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -179,6 +184,8 @@ fun MessagesView(
 
     val syncReadMarkerAndReceipt = ScPrefs.SYNC_READ_RECEIPT_AND_MARKER.value()
 
+    var showMessageSearchBottomSheet by rememberSaveable { mutableStateOf(false) }
+
     val expandableState = rememberExpandableBottomSheetLayoutState()
     ExpandableBottomSheetLayout(
         modifier = modifier
@@ -210,6 +217,7 @@ fun MessagesView(
                             dmUserIdentityState = state.dmUserVerificationState,
                             onBackClick = { hidingKeyboard { onBackClick() } },
                             onRoomDetailsClick = { hidingKeyboard { onRoomDetailsClick() } },
+                            onSearchClick = { showMessageSearchBottomSheet = true },
                             onJoinCallClick = onJoinCallClick,
                         )
                         ScReadMarkerDebug(state.timelineState.scReadState)
@@ -363,6 +371,22 @@ fun MessagesView(
         },
         state = state.linkState,
     )
+
+    if (showMessageSearchBottomSheet) {
+        val focusOnEvent = remember(state.timelineState.eventSink) {
+            { eventId: EventId ->
+                state.timelineState.eventSink(TimelineEvents.FocusOnEvent(eventId))
+            }
+        }
+        RoomMessageSearchBottomSheet(
+            state = state,
+            onDismiss = { showMessageSearchBottomSheet = false },
+            onOpenEvent = {
+                showMessageSearchBottomSheet = false
+                focusOnEvent(it)
+            },
+        )
+    }
 }
 
 @Composable

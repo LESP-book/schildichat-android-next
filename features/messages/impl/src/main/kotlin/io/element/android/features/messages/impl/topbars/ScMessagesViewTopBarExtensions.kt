@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PushPin
 import androidx.compose.material.icons.filled.RemoveRedEye
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Update
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -67,9 +68,16 @@ internal fun ScNotEncryptedIndicator(isRoomEncrypted: Boolean?) {
 internal fun RowScope.scMessagesViewTopBarActions(
     state: MessagesState,
     callState: RoomCallState,
+    onSearchClicked: () -> Unit,
     onJoinCallClicked: () -> Unit,
     onViewAllPinnedMessagesClick: () -> Unit,
 ) {
+    IconButton(onClick = onSearchClicked) {
+        Icon(
+            imageVector = Icons.Default.Search,
+            contentDescription = stringResource(CommonStrings.action_search),
+        )
+    }
     val markAsReadAsQuickAction = showMarkAsReadQuickAction()
     if (markAsReadAsQuickAction) {
         IconButton(onClick = { state.timelineState.eventSink(TimelineEvents.MarkAsRead) }) {

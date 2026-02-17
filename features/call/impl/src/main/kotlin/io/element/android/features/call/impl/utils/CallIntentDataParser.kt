@@ -17,6 +17,9 @@ class CallIntentDataParser {
     private val validHttpSchemes = sequenceOf("https")
     private val knownHosts = sequenceOf(
         "call.element.io",
+        "call.redworker.org",
+        "app.element.io",
+        "chat.redworker.org",
     )
 
     fun parse(data: String?): String? {

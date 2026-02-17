@@ -44,8 +44,11 @@
 
                 <data android:scheme="https" />
 
-                <!-- Matching asset file: https://call.element.io/.well-known/assetlinks.json -->
+                <!-- Matching asset files:
+                     https://call.element.io/.well-known/assetlinks.json
+                     https://call.redworker.org/.well-known/assetlinks.json -->
                 <data android:host="call.element.io" />
+                <data android:host="call.redworker.org" />
             </intent-filter>
             <!-- Custom scheme to handle urls from other domains in the format: element://call?url=https%3A%2F%2Felement.io -->
             <intent-filter>
